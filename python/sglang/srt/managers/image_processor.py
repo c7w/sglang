@@ -561,6 +561,7 @@ class Qwen2VLImageProcessor(BaseImageProcessor):
             "image_sizes": image_sizes,
             "modalities": request_obj.modalities or ["image"],
             "image_grid_thws": image_grid_thws,
+            "second_per_grid_ts": ret["second_per_grid_ts"],
         }
 
 
@@ -570,6 +571,8 @@ class Qwen2_5VLImageProcessor(BaseImageProcessor):
         self.IMAGE_TOKEN = "<|vision_start|><|image_pad|><|vision_end|>"
         self.IM_START_TOKEN_ID = hf_config.vision_start_token_id
         self.IM_END_TOKEN_ID = hf_config.vision_end_token_id
+        self.image_token_id = hf_config.image_token_id
+        self.video_token_id = hf_config.video_token_id
         self.NUM_TOKEN_PER_FRAME = 770
 
     @staticmethod
@@ -581,6 +584,8 @@ class Qwen2_5VLImageProcessor(BaseImageProcessor):
             "input_ids": result.input_ids,
             "pixel_values": result.pixel_values,
             "image_grid_thws": result.image_grid_thw,
+            "second_per_grid_ts": result.second_per_grid_ts,
+            "video_grid_thws": result.video_grid_thws,
         }
 
     async def _process_images(self, images, input_text) -> dict:
@@ -622,8 +627,12 @@ class Qwen2_5VLImageProcessor(BaseImageProcessor):
             "image_hashes": base_output.image_hashes,
             "modalities": request_obj.modalities or ["image"],
             "image_grid_thws": ret["image_grid_thws"],
+            "video_grid_thws": ret["video_grid_thws"],
             "im_start_id": self.IM_START_TOKEN_ID,
             "im_end_id": self.IM_END_TOKEN_ID,
+            "im_token_id": self.image_token_id,
+            "video_token_id": self.video_token_id,
+            "second_per_grid_ts": ret["second_per_grid_ts"],
         }
 
 
