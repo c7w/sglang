@@ -630,6 +630,8 @@ class Qwen2_5_VLForConditionalGeneration(nn.Module):
                     rank = get_tensor_model_parallel_rank()
                     start_dim = rank * hidden_chunk_size
                     end_dim = (rank + 1) * hidden_chunk_size
+                    
+                    
                     inputs_embeds[left_idx:right_idx, ..., start_dim:end_dim] = (
                         image_embeds[
                             image_embeds_offset : image_embeds_offset

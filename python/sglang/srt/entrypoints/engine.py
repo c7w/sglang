@@ -132,6 +132,7 @@ class Engine:
         modalities_list = []
         if image_data is not None:
             modalities_list.append("image")
+        modalities_list *= len(input_ids) if isinstance(input_ids, list) else 1
 
         obj = GenerateReqInput(
             text=prompt,
